@@ -42,9 +42,11 @@ jobs:
           KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
           KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
           KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
-        run: |
-          cd android/app/build/outputs/bundle/release
-          jarsigner -verbose -sigalg SHA256withRSA -digestalg SHA-256 -keystore $GITHUB_WORKSPACE/ilmbuds-new.keystore -storepass $KEYSTORE_PASSWORD -keypass $KEY_PASSWORD app-release.aab $KEY_ALIAS
+        run: >
+          jarsigner -verbose -sigalg SHA256withRSA -digestalg SHA-256 \
+          -keystore $GITHUB_WORKSPACE/ilmbuds-new-keystore-backup.keystore \
+          -storepass $KEYSTORE_PASSWORD -keypass $KEY_PASSWORD \
+          android/app/build/outputs/bundle/release/app-release.aab $KEY_ALIAS
 
       - name: Upload AAB
         uses: actions/upload-artifact@v4
